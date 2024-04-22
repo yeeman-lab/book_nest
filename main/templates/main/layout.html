@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Nest</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'main/index.css' %}" />
+    <!-- Calling jquery first -->
+    <script language="JavaScript" type="text/javascript" src="{% static 'main/jquery.js' %}"></script>
+    <script language="JavaScript" type="text/javascript" src="{% static 'main/bootstrap.min.js' %}"></script>
+    <!-- Custom JavaScript -->
+    <script type="text/javascript" src="{% static 'main/index.js' %}"></script>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'main:index' %}">Book Nest</a>
+        <!-- Toggle Button for Collapsible Navbar -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Collapsible Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'main:user_page' %}">User Page</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'main:shelf' %}">Book Shelf</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'main:create_club' %}">Create Club</a>
+            </li>
+            {% endif %}
+            <!-- Add more items as needed -->
+          </ul>
+          <!-- Right-aligned Navigation Items -->
+          <ul class="navbar-nav ms-auto">
+            <!-- Authentication Related Items -->
+            {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'user:logout' %}">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'user:login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'user:register' %}">Register</a>
+            </li>
+            {% endif %}
+            <!-- Adjust the order or add more items as needed -->
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Main Content Container -->
+    <div class="container" id="container">
+      <!-- Button to Scroll to Top -->
+      <button id="myBtn" title="Go to top" class="opacity-50">Top</button>
+      <!-- Block for Specific Page Content -->
+      {% block body %} {% endblock %}
+      <!-- Footer Section -->
+      <footer>
+        <p class="font-monospace mt-3">
+          &copy;
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+          Book Nest. All rights reserved.
+        </p>
+      </footer>
+    </div>
+
+    {% block endjs %} {% endblock %}
+  </body>
+</html>

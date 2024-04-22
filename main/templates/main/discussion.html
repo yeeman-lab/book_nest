@@ -1,0 +1,85 @@
+{% extends "main/layout.html" %} {% load crispy_forms_tags %} {% block body %}
+<header class="mt-4">
+  <h1 class="bg-light shadow-sm bg-gradient rounded font-monospace">Discussion Area</h1>
+</header>
+
+<main class="mt-4">
+  <h2 class="text-uppercase">{{club.club_name}}</h2>
+
+  <!-- Section for Current Reading or Finished Book -->
+  <section class="mb-4">
+    {% if current_book %}
+    <h4>Our Current Reading</h4>
+    {% else %}
+    <h4>We've Finished This Book</h4>
+    {% endif %}
+
+    <div class="row">
+      <div class="col-md-4 col-lg-2">
+        <img src="https://covers.openlibrary.org/b/id/{{reading.cover_edition_key}}-M.jpg" class="img-fluid rounded" alt="Book Cover" />
+      </div>
+      <div class="col-md-8 col-lg-10">
+        <br />
+        <p>Book Name: {{reading.book_name}}</p>
+        <p>Publish Year: {{reading.publish_year}}</p>
+        <p>Author: {{reading.author}}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Discussion Questions Section -->
+  {% if is_joined or is_creator %}
+  <!-- Display if the user is a member or creator of the club -->
+  <div class="d-grid gap-1 col-lg-8 col-sm-12">
+    <h2 class="mb-3">Discussion Questions</h2>
+    {% if current_book %}
+
+    <!-- Button to Toggle Post Question Section -->
+    <button class="btn bg-dark text-white font-monospace mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#postQuestionSection" aria-expanded="false" aria-controls="postQuestionSection">Post a Discussion Question</button>
+
+    <!-- Collapsed section for posting a question -->
+    <div class="collapse mt-1 mb-3" id="postQuestionSection">
+      <div class="mt-1">
+        <!-- Form for posting a question -->
+        <form action="{% url 'main:discussion' reading.id %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %} {{question_form|crispy}}
+
+          <button type="submit" class="btn bg-dark text-white font-monospace mt-2">Submit Question</button>
+        </form>
+      </div>
+    </div>
+    {% endif %} {% if question_list %}
+    <!-- Display if there are discussion questions -->
+    {% for question in question_list %}
+    <p class="mb-0 text-uppercase font-monospace"><mark class="bg-secondary text-white">{{question.user.username}} ({{question.date}}):</mark></p>
+    <p class="mb-1 fw-medium">Q{{forloop.counter}}. {{question.description}}</p>
+
+    <!-- Button to Toggle Response Section -->
+    <button class="btn btn-outline-secondary btn-sm mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#responseSectionQ{{forloop.counter}}" aria-expanded="false" aria-controls="responseSectionQ{{forloop.counter}}">Add Response</button>
+    <!-- Collapsed section for responding to a question -->
+    <div class="collapse mt-1" id="responseSectionQ{{forloop.counter}}">
+      <div class="mt-3">
+        <!-- Form for responding to a question -->
+        <form class="mb-3" action="{% url 'main:response' question.id %}" method="POST" enctype="multipart/form-data">
+          <div class="mb-3">{% csrf_token %} {{response_form|crispy}}</div>
+          <button type="submit" class="btn bg-dark text-white font-monospace">Submit Response</button>
+        </form>
+      </div>
+    </div>
+    <!-- Display Responses -->
+    {% if response_list %} {% for response in response_list|get_dict_value:question.id %}
+
+    <p class="mb-0 text-uppercase font-monospace"><u>Replied by {{response.user.username}} ({{response.date}}):</u></p>
+    <p>{{response.description}}</p>
+    {% endfor %} {% endif %} {% endfor %} {% endif %}
+  </div>
+  {% else %}
+  <!-- Display if the user is not a member or creator of the club -->
+  <form action="{% url 'main:join_club' club.id %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- Button to Join the Club -->
+    <button class="link-underline link-underline-opacity-0 bg-dark text-white font-monospace mt-0">Join Us to Discuss This Book</button>
+  </form>
+  {% endif %}
+</main>
+{% endblock %}

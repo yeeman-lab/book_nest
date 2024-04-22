@@ -1,0 +1,199 @@
+.carousel {
+  position: relative;
+}
+
+@media (max-width: 374px) {
+  body {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 1199px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+.carousel-inner {
+  padding: 5em;
+}
+.card {
+  margin: 0 0.5em;
+  box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.18);
+  border: none;
+}
+.carousel-control-prev,
+.carousel-control-next {
+  background-color: #e1e1e1;
+  width: 6vh;
+  height: 6vh;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+@media (min-width: 768px) {
+  .carousel-item {
+    margin-right: 0;
+    flex: 0 0 33.333333%;
+    display: block;
+  }
+  .carousel-inner {
+    display: flex;
+  }
+}
+.card .img-wrapper {
+  max-width: 100%;
+  height: 13em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card .shelf-img {
+  max-width: 100%;
+  height: 13em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card #club-card {
+  height: 20em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#user-created {
+  height: 10em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#user-joined {
+  height: 8em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#index-card {
+  height: 23em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+#shelf-card {
+  height: 23em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#search-card {
+  height: 25em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: cover;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .shelf-card {
+    width: 10em;
+  }
+}
+.club-title {
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.index-title {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.shelf-title {
+  height: 3em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.search-title {
+  height: 4.5em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.card img {
+  max-height: 100%;
+}
+@media (max-width: 767px) {
+  .card .img-wrapper {
+    height: 15em;
+  }
+}
+
+#words {
+  color: blue;
+}
+
+#myBtn {
+  display: none; /* Hidden by default */
+  position: fixed; /* Fixed/sticky position */
+  bottom: 20px; /* Place the button at the bottom of the page */
+  right: 30px; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  border: none; /* Remove borders */
+  outline: none; /* Remove outline */
+  background-color: gray; /* Set a background color */
+  color: white; /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 15px; /* Some padding */
+  border-radius: 10px; /* Rounded corners */
+  font-size: 18px; /* Increase font size */
+}
+
+#myBtn:hover {
+  background-color: #555; /* Add a dark-grey background on hover */
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+}
+/* Set padding and margin for body and html for better appearance*/
+html,
+body {
+  padding-top: 0;
+  margin-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* Stacking entire content of the flex container vertically */
+#container {
+  display: flex;
+  flex-direction: column;
+  min-height: 95vh;
+}
+main {
+  flex: 1;
+  padding-top: 0;
+  margin-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}

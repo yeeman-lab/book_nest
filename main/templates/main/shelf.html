@@ -1,0 +1,127 @@
+{% extends "main/layout.html" %} {% block body %}
+<main class="mt-4">
+<section class="static-top">
+  <h1 class="font-monospace">Your Book Shelf</h1>
+  <!-- Button to add a book to the shelf -->
+  <a href="{% url 'main:add_to_shelf' %}" class="btn btn bg-dark text-white font-monospace mt-0 mb-3">Add book to shelf </a>
+  <!-- Navigation for different book categories -->
+  <nav id="navbar-example2" class="navbar navbar-light bg-light shadow-sm text-dark bg-gradient rounded">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link text-dark fw-bold font-monospace" href="#Physical">Physical Print</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark fw-bold font-monospace" href="#Apple">Apple Books</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark fw-bold font-monospace" href="#Google">Google Books</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-dark fw-bold font-monospace" href="#Kindle">Kindle Books</a>
+      </li>
+    </ul>
+  </nav>
+</section>
+
+<div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+  
+<h2 class="mt-4 mb-3 bg-light shadow-sm bg-gradient rounded font-monospace" id="Physical">Physical Print</h2>
+  <!--Physical Print section-->
+  {% if physical_list %}
+    <div class="row">
+      {% for book in physical_list %}
+        <div class="card col-5 col-md-3 col-lg-2 mt-2" id="shelf-card">
+          <div class="card-body d-block w-100 rounded text-center">
+            <div class="shelf-img"><img src="https://covers.openlibrary.org/b/id/{{book.cover_edition_key}}-M.jpg" class="d-block w-70 rounded" alt="Book Cover" /></div>
+            <div class="shelf-title mt-1">
+            <p class="text-wrap">{{book.book_name}}</p></div>
+            <p class="card-text">({{book.publish_year}})</p>
+            <form action="{% url 'main:shelf_del_book' book.id %}" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <button class="btn bg-dark text-white font-monospace mt-0" type="submit">Delete</button>
+            </form>
+            
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <!-- Display message if no books in this category -->
+    <h5 class="font-monospace">You do not have any books</h5>
+  {% endif %}
+
+  
+  <h2 class="mt-3 mb-3 bg-light shadow-sm bg-gradient rounded font-monospace" id="Apple">Apple Books</h2>
+  <!--Apple books section-->
+  {% if apple_list %}
+    <div class="row">
+      {% for book in apple_list %}
+      <div class="card col-5 col-md-3 col-lg-2 mt-2" id="shelf-card">
+        <div class="card-body d-block w-100 rounded text-center">
+          <div class="shelf-img"><img src="https://covers.openlibrary.org/b/id/{{book.cover_edition_key}}-M.jpg" class="d-block w-70 rounded" alt="Book Cover" /></div>
+          <div class="shelf-title mt-1">
+          <p class="text-wrap">{{book.book_name}}</p></div>
+          <p class="card-text">({{book.publish_year}})</p>
+          <form action="{% url 'main:shelf_del_book' book.id %}" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              <button class="btn bg-dark text-white font-monospace mt-0" type="submit">Delete</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+      </div>
+      {% else %}
+      <!-- Display message if no books in this category -->
+      <h5 class="font-monospace">You do not have any books</h5>
+  {% endif %}
+
+  <h2 class="mt-4 mb-3 bg-light shadow-sm bg-gradient rounded font-monospace" id="Google">Google Books</h2>
+  <!--Google Books section-->
+  {% if google_list %}
+    <div class="row">
+      {% for book in google_list %}
+        <div class="card col-5 col-md-3 col-lg-2 mt-2" id="shelf-card">
+          <div class="card-body d-block w-100 rounded text-center">
+            <div class="shelf-img"><img src="https://covers.openlibrary.org/b/id/{{book.cover_edition_key}}-M.jpg" class="d-block w-70 rounded" alt="Book Cover" /></div>
+            <div class="shelf-title mt-1">
+            <p class="text-wrap">{{book.book_name}}</p></div>
+            <p class="card-text">({{book.publish_year}})</p>
+            <form action="{% url 'main:shelf_del_book' book.id %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <button class="btn bg-dark text-white font-monospace mt-0" type="submit">Delete</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <!-- Display message if no books in this category -->
+    <h5 class="font-monospace">You do not have any books</h5>
+  {% endif %}
+
+
+    <h2 class="mt-4 mb-3 bg-light shadow-sm bg-gradient rounded font-monospace" id="Kindle">Kindle Books</h2>
+  <!--Kindle Books section-->
+  {% if kindle_list %}
+    <div class="row">
+      {% for book in kindle_list %}
+        <div class="card col-5 col-md-3 col-lg-2 mt-2" id="shelf-card">
+          <div class="card-body d-block w-100 rounded text-center">
+            <div class="shelf-img"><img src="https://covers.openlibrary.org/b/id/{{book.cover_edition_key}}-M.jpg" class="d-block w-70 rounded" alt="Book Cover" /></div>
+            <div class="shelf-title mt-1">
+            <p class="text-wrap">{{book.book_name}}</p></div>
+            <p class="card-text">({{book.publish_year}})</p>
+            <form action="{% url 'main:shelf_del_book' book.id %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <button class="btn bg-dark text-white font-monospace mt-0" type="submit">Delete</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+  <!-- Display message if no books in this category -->
+  <h5 class="font-monospace">You do not have any books</h5>
+  {% endif %}
+</main>
+{% endblock %}

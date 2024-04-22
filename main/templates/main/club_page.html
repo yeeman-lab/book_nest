@@ -1,0 +1,80 @@
+{% extends "main/layout.html" %} {% block body %}
+		
+<main class="mt-4">
+	<!-- Section for Club Information -->
+	<section class="mb-4">
+		<h1 class="text-uppercase">{{club.club_name}}</h1>
+		{% for type in club.types.all %}
+		<span class="badge bg-light text-dark font-monospace"><h6>{{ type.description }}</h6></span>
+		{% endfor %}
+		</br>
+		<p class="mt-2 font-monospace lh-base">{{club.club_description}}</p>
+		<!-- If user is the creator of the club -->
+		{% if is_creator %}
+			<a href="{% url 'main:manage_club' club.id %}" class="link-underline link-underline-opacity-0 p-1 bg-dark text-white font-monospace mt-0">Manage Club</a>
+		<!-- If user has already joined the club -->
+		{% elif is_joined %}
+			<form action="{% url 'main:leave_club' club.id %}" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			<button class="link-underline link-underline-opacity-0 bg-dark text-white font-monospace mt-0">Leave This Club</button>
+			</form>
+		<!-- If user has not joined the club -->
+		{% else %}
+			<form action="{% url 'main:join_club' club.id %}" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			<button class="link-underline link-underline-opacity-0 bg-dark text-white font-monospace mt-0">Join Us</button>
+			</form>
+		{% endif %}
+	</section>
+
+	<!-- Section for Current Book Being Read -->
+	{% if current_book %}
+	<section class="mb-4 col-sm-8 col-md-12 col-lg-6">
+		<h2 class="mb-5 bg-light shadow-sm bg-gradient rounded font-monospace">Currently Reading</h2>
+		<div class="row">
+			<div class="col-md-4 col-lg-4">
+				<img src="https://covers.openlibrary.org/b/id/{{current_book.cover_edition_key}}-M.jpg" class="img-fluid rounded" alt="Book Cover"  style="height: 200px;">
+			</div>
+			<div class="col-md-8 col-lg-8 mt-1">
+				<p>Book Name: {{current_book.book_name}}</p>
+				<p>Publish Year: {{current_book.publish_year}}</p>
+				<p>Author: {{current_book.author}}</p>
+				<a href="{% url 'main:discussion' current_book.id %}" class="link-underline link-underline-opacity-0 bg-dark text-white font-monospace mt-0 p-2">Discuss This Book</a>
+			</div>
+		</div>
+	</section>
+	{% endif %}
+
+	<!-- Section for Finished Books -->
+	{% if finish_books %}
+	<section class="mt-5 col-sm-8 col-md-12 col-lg-6">
+		<h2 class="bg-light shadow-sm bg-gradient rounded font-monospace">Books We've Read</h2>
+		<!-- Carousel for Finished Books -->
+		<div id="carouselExample" class="carousel">
+				<div class="carousel-inner">
+					{% for finish_book in finish_books %}
+					<div class="carousel-item {% if forloop.first %}active{% endif %}">
+						<div class="card">
+						<div class="img-wrapper">
+							<img src="https://covers.openlibrary.org/b/id/{{finish_book.cover_edition_key}}-M.jpg" class="d-block w-90 rounded " alt="Book Cover 1" style="height: 200px;">
+						</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+					data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+					data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+		</div>
+	</section>
+	{% endif %}
+</main>
+		
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "main/layout.html" %} {% load crispy_forms_tags %} {% block body %}
+<header class="mt-4 text-center font-monospace">
+  <h1>Join Book Nest</h1>
+</header>
+
+<main class="mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="text-center font-monospace mb-4">Create an Account</h2>
+      <form id="registerForm" method="POST" class="form-group">
+        {% csrf_token %} {{ form|crispy }}
+        <!-- Register button -->
+        <button type="submit" class="btn bg-dark text-white font-monospace mt-2">Register</button>
+      </form>
+    </div>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "main/layout.html" %} {% load crispy_forms_tags %} {% block body %}
+<header class="mt-4">
+  <h1 class="bg-light shadow-sm bg-gradient rounded font-monospace">Add book to your shelf</h1>
+</header>
+<script>
+  // JavaScript function to select a book from search results
+  function selectBook(book_name, author, publish_year, cover_edition_key) {
+    document.getElementById("add_to_shelf").style.display = ""; // Show the form to add the book to shelf
+    document.getElementById("book_name").value = book_name; // Fill the form fields with book details
+    document.getElementById("author").value = author;
+    document.getElementById("publish_year").value = publish_year;
+    document.getElementById("cover_edition_key").value = cover_edition_key;
+  }
+</script>
+<main class="mt-4">
+  <h2>Find the book</h2>
+  <!-- Form to search for a book -->
+  <form method="POST" action="{% url 'main:add_to_shelf' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="form-group col-md-6 mb-3">{{ form.book_name|as_crispy_field }}</div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6 mb-3">{{ form.author_name|as_crispy_field }}</div>
+    </div>
+
+    <button type="submit" name="search_book" class="btn bg-dark text-white font-monospace mt-3">Search Book</button>
+  </form>
+
+  <!-- Display search results -->
+  {% if ui_search_results %}
+  <div class="col-sm-10 col-md-12 col-lg-8">
+    <div id="physicalCarouselIndicators" class="carousel">
+      <div class="carousel-inner">
+        {% for search_result in ui_search_results %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          <div class="card" id="search-card">
+            <div class="img-wrapper"><img src="https://covers.openlibrary.org/b/id/{{search_result.cover_id}}-M.jpg" class="d-block w-100 rounded" alt="Book Cover" /></div>
+            <div class="card-body text-center">
+              <div class="search-title mt-1">
+                <p class="text-wrap">{{search_result.title}}</p>
+              </div>
+              <p class="card-text mt-0 mb-1">({{search_result.publish_year}})</p>
+              <button class="btn bg-dark text-white font-monospace mt-0" onclick="selectBook('{{search_result.title|escapejs}}', '{{search_result.author_name|escapejs}}', '{{search_result.publish_year}}', '{{search_result.cover_id}}')">Select</button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#physicalCarouselIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#physicalCarouselIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Form to add selected book to shelf -->
+  <form method="POST" action="{% url 'main:submit_shelf' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div id="add_to_shelf" style="display: none">
+      <div class="form-row">
+        <div class="form-group col-md-6 mb-3">{{ add_shelf_form|crispy }}</div>
+      </div>
+      <button type="submit" name="add_to_shelf" class="btn bg-dark text-white font-monospace mt-2 mb-3">Add to shelf</button>
+    </div>
+  </form>
+</main>
+
+{% endblock %}
