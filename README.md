@@ -51,7 +51,7 @@ Book Nest is a web application built using Django that facilitates book clubs an
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yeeman-lab/projects/book_nest.git
+git clone https://github.com/yeeman-lab/book_nest.git
 ```
 
 2. Navigate to the project directory:
